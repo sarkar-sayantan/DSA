@@ -1,0 +1,37 @@
+//  Using Recursion
+class Solution {
+    public int minOperations(int[] nums, int x) {
+        int ans = minOps(nums,0,nums.length-1,x,0);
+        return ans >= 1e6 ? -1: ans;
+    }
+
+    int minOps(int[] nums, int left, int right, int target, int count){
+        if(target == 0)
+            return count;
+        if (target < 0 || left > right)
+            return (int)1e6;
+        return Math.min(minOps(nums, left+1, right, target-nums[left],count+1),minOps(nums, left, right-1, target-nums[right],count+1));
+    }
+}
+
+// Using Memoization
+class Solution {
+    public int minOperations(int[] nums, int x) {
+        HashMap<String, Integer> mem = new HashMap<>();
+        int ans = minOps(nums,0,nums.length-1,x,0,mem);
+        return ans >= 1e6 ? -1: ans;
+    }
+
+    int minOps(int[] nums, int left, int right, int target, int count, HashMap<String,Integer> mem){
+        if(target == 0)
+            return count;
+        if (target < 0 || left > right)
+            return (int)1e6;
+        String key = left + "*" + right + "*" + count;
+        if(mem.containsKey(key))
+            return mem.get(key);
+        mem.put(key, Math.min(minOps(nums, left+1, right, target-nums[left],count+1, mem),
+                minOps(nums, left, right-1, target-nums[right],count+1, mem)));
+        return mem.get(key);   
+    }
+}
