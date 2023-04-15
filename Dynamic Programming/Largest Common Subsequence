@@ -1,0 +1,20 @@
+class Solution
+{
+    static int lcs(int x, int y, String s1, String s2)
+    {
+        int[][] sequenceMatrix = new int[x+1][y+1];
+        for(int i=0;i<=x;i++){
+            for(int j=0;j<=y;j++){
+                if(i==0 || j==0)
+                    sequenceMatrix[i][j]=0;
+                else if(s1.charAt(i-1) == s2.charAt(j-1))
+                    sequenceMatrix[i][j] = sequenceMatrix[i-1][j-1] + 1;
+                else
+                    sequenceMatrix[i][j] = Math.max(sequenceMatrix[i-1][j],sequenceMatrix[i][j-1]);
+            }
+        }
+        return sequenceMatrix[x][y];
+    }
+}
+
+// If you want to find exact string i.e. longest common subsequence look into Shortest Common Supersequence solution
